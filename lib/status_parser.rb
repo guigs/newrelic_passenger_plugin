@@ -1,47 +1,19 @@
 class Status
   require 'date'
 
+  attr_reader :max, :current, :queue, :sessions, :cpu, :process_memory, :last_used_time
+
   def initialize(output)
     status_command = output.match(/<.+/m).to_s
     doc = Nokogiri::XML(status_command,nil,'iso8859-1')
 
-    @status_result = [
-      doc.xpath('//info/max').text.to_i,
-      doc.xpath('//info/capacity_used').text.to_i,
-      doc.xpath('//info/get_wait_list_size').text.to_i,
-      parse_sessions(doc),
-      parse_cpu(doc),
-      parse_app_memory(doc),
-      parse_last_used(doc)
-    ]
-  end
-
-  def max
-    @status_result[0]
-  end
-
-  def current
-    @status_result[1]
-  end
-
-  def queue
-    @status_result[2]
-  end
-
-  def sessions
-    @status_result[3]
-  end
-
-  def cpu
-    @status_result[4]
-  end
-
-  def process_memory
-    @status_result[5]
-  end
-
-  def last_used_time
-    @status_result[6]
+    @max = doc.xpath('//info/max').text.to_i
+    @current = doc.xpath('//info/capacity_used').text.to_i
+    @queue = doc.xpath('//info/get_wait_list_size').text.to_i
+    @sessions = parse_sessions(doc)
+    @cpu = parse_cpu(doc)
+    @process_memory = parse_app_memory(doc)
+    @last_used_time = parse_last_used(doc)
   end
 
   private
