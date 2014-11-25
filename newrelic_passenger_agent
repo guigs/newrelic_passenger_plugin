@@ -19,7 +19,7 @@ module PassengerAgent
     # Name of instance that will display in New Relic
     agent_human_labels("Passenger") { "#{`hostname`}" }
 
-# Send stats to New Relic
+    # Send stats to New Relic
     def poll_cycle
 
       #initialize
@@ -46,7 +46,7 @@ module PassengerAgent
 
     private
 
-# Run command on passenger server to get data
+    # Run command on passenger server to get data
     def run_command(command)
 
       result = `#{command}`
@@ -57,11 +57,11 @@ module PassengerAgent
       result
     end
 
-  # Register this agent with the component.
-  NewRelic::Plugin::Setup.install_agent :passenger, PassengerAgent
+    # Register this agent with the component.
+    NewRelic::Plugin::Setup.install_agent :passenger, PassengerAgent
 
-  # Launch the agent; this never returns.
-  NewRelic::Plugin::Run.setup_and_run
+    # Launch the agent; this never returns.
+    NewRelic::Plugin::Run.setup_and_run
   end
 
 end
