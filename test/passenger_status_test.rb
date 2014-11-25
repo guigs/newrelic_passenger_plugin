@@ -5,7 +5,7 @@ require "nokogiri"
 class PassengerStatusTest < Test::Unit::TestCase
 
   def setup
-    example_output_file = File.join(File.dirname(__FILE__), 'test_commands/passenger-status --show=xml')
+    example_output_file = File.join(File.dirname(__FILE__), 'test_commands/passenger-status.xml')
     @status_parser = Status.new(File.read(example_output_file))
   end
 
