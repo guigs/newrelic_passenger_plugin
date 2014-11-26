@@ -14,6 +14,12 @@ NOTE!!! Currently written to support passenger 4, parsing may not work correctly
 6. Edit `config/newrelic_plugin.yml` and add the full path to your 'passenger-status --show=xml' and 'free -m' commands if needed, as well as the hostname (as you want it to appear in NewRelic)
 7. Run `./newrelic_passenger_agent`
 
+## Running Agent as Daemon
+
+To run the agent as daemon process in the background the daemons gem was included. This provides the usual start/stop/status via PID file stuff.
+Run `sudo ./newrelic_passenger_agent.daemon start --ontop` to check if daemonizing works in general and every thing is set up correctly (the agent should report several values).
+To start the daemon run `sudo ./newrelic_passenger_agent.daemon start`
+
 ## Data Collected
 
 Data for this agent is collected by running the command 'passenger-status --show=xml' then parsing the results
