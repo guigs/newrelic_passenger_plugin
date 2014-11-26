@@ -13,8 +13,8 @@ module PassengerAgent
 
   class Agent < NewRelic::Plugin::Agent::Base
 
-    agent_guid "com.Gazelle.passenger"
-    agent_version "1.0.1"
+    agent_guid 'br.com.sapiente.passenger'
+    agent_version '1.0.0'
     agent_config_options :passenger_status
     # Name of instance that will display in New Relic
     agent_human_labels("Passenger") { "#{`hostname`}" }
@@ -25,22 +25,33 @@ module PassengerAgent
       #initialize
       @status = Status.new(run_command(passenger_status))
 
-      # Report data from passegner-status command
-      report_metric "passenger/processes/max", "Processes", @status.max
-      report_metric "passenger/processes/running", "Processes", @status.current
-      report_metric "passenger/queue/waiting", "Requests", @status.queue
-      report_metric "passenger/totals/sessions", "Sessions", @status.sessions
-      report_metric "passenger/totals/cpu", "CPU%", @status.cpu
+      # CPU usage by app
+      @status.cpu.each do |app, cpu_usage|
+        report_metric "passenger/cpu/#{app}", "%", cpu_usage
+      end
 
       # Memory usage by app
-      @status.process_memory.each do |app, memory_usage|
-        report_metric "passenger/memory/detail/#{app}", "MB", memory_usage
+      @status.memory.each do |app, memory_usage|
+        report_metric "passenger/memory/#{app}", "MB", memory_usage / 1024
       end
 
-      # Time since last used, by passenger worker
-      @status.last_used_time.each do |worker_num, time_elapsed|
-        report_metric "passenger/workers/time_since_last_used/#{worker_num}", "s", time_elapsed
+      # Queue by app
+      @status.queue.each do |app, queue|
+        report_metric "passenger/queue/#{app}", "Requests", queue
       end
+      report_metric "passenger/queue/global", "Requests", @status.global_queue
+
+      # Sessions by app
+      @status.sessions.each do |app, sessions|
+        report_metric "passenger/sessions/#{app}", "Sessions", sessions
+      end
+
+      # Processes by app
+      @status.proscesses.each do |app, processes|
+        report_metric "passenger/processes/#{app}", "Processes", processes
+      end
+      report_metric "passenger/processes/max", "Processes", @status.max
+      report_metric "passenger/processes/running", "Processes", @status.current
 
     end
 
