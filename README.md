@@ -16,7 +16,7 @@ NOTE!!! Currently written to support passenger 4, parsing may not work correctly
 
 ## Data Collected
 
-Data for this agent is collected by running the commands 'passenger-status --show=xml' and 'free -m' then parsing the results
+Data for this agent is collected by running the command 'passenger-status --show=xml' then parsing the results
 
 Data captured for => passenger-status --show=xml
 - # of processes running (max and current)
@@ -24,20 +24,6 @@ Data captured for => passenger-status --show=xml
 - total sessions active
 - total cpu usage
 - memory usage by process
-
-Data captured for => free -m
-- Total memory
-- Memory used (all)
-- Memory free (all)
-- shared memory
-- allocated to buffers
-- cached
-- memory used by applications
-- memory available to applications
-- total swap
-- swap used
-- swap free
-- % Memory free (for summary metrics page)
 
 ## Other Sources
 
