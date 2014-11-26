@@ -32,28 +32,28 @@ module PassengerAgent
 
       # Memory usage by app
       @status.memory.each do |app, memory_usage|
-        report_metric "passenger/memory/#{app}", "MB", memory_usage / 1024
+        report_metric "passenger/memory/#{app}", "mebiBytes", memory_usage / 1024
       end
 
       # Queue by app
       @status.queue.each do |app, queue|
-        report_metric "passenger/queue/#{app}", "Requests", queue
+        report_metric "passenger/queue/#{app}", "requests", queue
       end
-      report_metric "passenger/queue/global", "Requests", @status.global_queue
+      report_metric "passenger/queue/global", "requests", @status.global_queue
 
       # Sessions by app
       @status.sessions.each do |app, sessions|
-        report_metric "passenger/sessions/#{app}", "Sessions", sessions
+        report_metric "passenger/sessions/#{app}", "sessions", sessions
       end
 
       # Processes by app
       @status.processes.each do |app, processes|
-        report_metric "passenger/processes/#{app}", "Processes", processes
+        report_metric "passenger/processes/#{app}", "processes", processes
       end
 
       # Global processes
-      report_metric "passenger/global_processes/max", "Processes", @status.max
-      report_metric "passenger/global_processes/running", "Processes", @status.current
+      report_metric "passenger/global_processes/max", "processes", @status.max
+      report_metric "passenger/global_processes/running", "processes", @status.current
 
     end
 
