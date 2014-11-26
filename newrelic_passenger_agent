@@ -50,8 +50,10 @@ module PassengerAgent
       @status.processes.each do |app, processes|
         report_metric "passenger/processes/#{app}", "Processes", processes
       end
-      report_metric "passenger/processes/max", "Processes", @status.max
-      report_metric "passenger/processes/running", "Processes", @status.current
+
+      # Global processes
+      report_metric "passenger/global_processes/max", "Processes", @status.max
+      report_metric "passenger/global_processes/running", "Processes", @status.current
 
     end
 
